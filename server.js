@@ -4,6 +4,8 @@ var app = express();
 // importing path module
 var path = require("path")
 
+// importing music-service.js module
+var musicService = require("./music-service.js")
 var HTTP_PORT = process.env.PORT || 8080;
 
 // SETTING A CALLBACK FUNCTION
@@ -23,6 +25,34 @@ app.get('/about', (req, res) => {
     res.sendFile(path.join(__dirname, "/views/about.html"))
 })
 
+// SETTING UP A ROUTE TO LISTEN ON "/albums"
+app.get('/albums', (req, res) => {
+    musicService.getAllAlbums().then((data) => {
+        res.json(data)
+    }).catch((err) => {
+        res.json({ "msg": err })
+    })
+})
+
+
+// SETTING UP A ROUTE TO LISTEN ON "/genres"
+app.get('/genres', (req, res) => {
+    musicService.getAllGenres().then((data) => {
+        res.json(data)
+    }).catch((err) => {
+        res.json({ "msg": err })
+    })
+})
+
+// SETTING UP A 404 PAGE
+app.use((req, res) => {
+    res.status(404).send("Page not Found!!")
+})
+
 
 // SETTING UP THE SERVER TO LISTEN ON PORT(8080)
-app.listen(HTTP_PORT, OnHttpStart)
+musicService.initialize().then(() => {
+    app.listen(HTTP_PORT, OnHttpStart)
+}).catch((err) => {
+    res.json({ "msg": err })
+})
