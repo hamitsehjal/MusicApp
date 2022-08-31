@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "musiquelite",
+  "version": "1.0.0",
+  "description": "A Web Music App",
+  "main": "server.js",
+  "author": "Hamit Sehjal",
+  "license": "ISC"
+}
