@@ -34,6 +34,10 @@ app.get('/albums', (req, res) => {
     })
 })
 
+// SETTING UP THE ROUTE TO LISTEN ON "/albums/add"
+app.get('/albums/add',(req,res)=>{
+    res.sendFile(path.join(__dirname,'/views/addAlbum.html'))
+})
 
 // SETTING UP A ROUTE TO LISTEN ON "/genres"
 app.get('/genres', (req, res) => {
