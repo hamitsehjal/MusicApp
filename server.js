@@ -8,6 +8,20 @@ var path = require("path")
 var musicService = require("./music-service.js")
 var HTTP_PORT = process.env.PORT || 8080;
 
+// importing multer, cloudinary and streamifier
+const multer = require("multer")
+const cloudinary = require("cloudinary").v2
+const streamifier = require("streamifier")
+
+// Configuring Cloudinary
+// 
+cloudinary.config({
+    cloud_name: 'dj4nx9iwk',
+    api_key: '219615635789477',
+    api_secret: 'OdmP-QoKDRmGihgxJNdTZGa_OOY',
+    secure: true
+})
+
 // SETTING A CALLBACK FUNCTION
 function OnHttpStart() {
     console.log("HTTP Server listening on Port " + HTTP_PORT)
@@ -35,8 +49,8 @@ app.get('/albums', (req, res) => {
 })
 
 // SETTING UP THE ROUTE TO LISTEN ON "/albums/add"
-app.get('/albums/add',(req,res)=>{
-    res.sendFile(path.join(__dirname,'/views/addAlbum.html'))
+app.get('/albums/add', (req, res) => {
+    res.sendFile(path.join(__dirname, '/views/addAlbum.html'))
 })
 
 // SETTING UP A ROUTE TO LISTEN ON "/genres"
