@@ -22,6 +22,12 @@ cloudinary.config({
     secure: true
 })
 
+// Since, we are using remote storage(cloudinary) to store album covers, we
+// will create empty upload variable without any disk storage since we are not using disk storage
+//
+const upload=multer()  // --**IMPORTANT
+
+
 // SETTING A CALLBACK FUNCTION
 function OnHttpStart() {
     console.log("HTTP Server listening on Port " + HTTP_PORT)
