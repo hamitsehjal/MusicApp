@@ -50,3 +50,18 @@ module.exports.getAllGenres = () => {
             reject("NO DATA FOUND!!")
     })
 }
+
+// addAlbum function
+module.exports.addAlbum = (newAlbum) => {
+    return new Promise((resolve, reject) => {
+        if (newAlbum) {
+            newAlbum.id = albums.length + 1;
+            albums.push(newAlbum)
+            console.log(albums);
+            resolve(newAlbum)
+        }
+        else {
+            reject("No Data Found!!")
+        }
+    })
+}
