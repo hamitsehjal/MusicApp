@@ -8,33 +8,19 @@ var path = require("path")
 var musicService = require("./music-service.js")
 var HTTP_PORT = process.env.PORT || 8080;
 
-// importing multer, cloudinary and streamifier
-const multer = require("multer")
-const cloudinary = require("cloudinary").v2
-const streamifier = require("streamifier")
+// importing configured multer and cloudinary
+const upload = require('./utils/multer')
+const cloudinary = require('./utils/cloudinary')
 
-// Configuring Cloudinary
-// 
-cloudinary.config({
-    cloud_name: 'dj4nx9iwk',
-    api_key: '219615635789477',
-    api_secret: 'OdmP-QoKDRmGihgxJNdTZGa_OOY',
-    secure: true
-})
-
-// Since, we are using remote storage(cloudinary) to store album covers, we
-// will create empty upload variable without any disk storage since we are not using disk storage
-//
-const upload = multer()  // --**IMPORTANT
-
+// setting up the middleware for size of files to be uploaded
+app.use(express.json({ limit: '50mb' }))
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 // SETTING A CALLBACK FUNCTION
 function OnHttpStart() {
     console.log("HTTP Server listening on Port " + HTTP_PORT)
 }
 
-// setting up the middleware to serve static resources correctly
-app.use(express.static('public'))
 // SETTING A ROUTE TO LISTEN ON DEFAULT URL (i.e localhost)
 app.get('/', function (req, res) {
     res.redirect('/about')
@@ -59,6 +45,20 @@ app.get('/albums/add', (req, res) => {
     res.sendFile(path.join(__dirname, '/views/addAlbum.html'))
 })
 
+app.post('/albums/add',upload.single('AlbumCover'),async(req,res,next)=>{
+    if(req.file)
+    {
+        //cloudinary.v2.uploader.upload(file, options).then(callback);
+        const results=cloudinary.uploader.upload(req.file.path)
+
+        console.log("Results: ",results)
+
+        const post_results={
+            title:req.body.Title, // to access textual data of form, use req.body
+            image:results.public_id
+        }
+    }
+})
 
 // SETTING UP A ROUTE TO LISTEN ON "/genres"
 app.get('/genres', (req, res) => {
