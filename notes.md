@@ -7,6 +7,8 @@
 ## *Important
 ### For uploading Node.js File to local server or to cloud - [click here](https://cloudinary.com/blog/node_js_file_upload_to_a_local_server_or_to_the_cloud)
 
+### We use app.engine to match a specific view extension with a template engine. For example if you want to map all html view templates to a specific engine you would register it here.
+
 ## OBJECTIVE
 1. We are making a functioning web-based Music Application capable of responding to request for content, reacting predictably to errors and storing/retrieving user information and application data.
 2. We will be studying how web browsers send data to and from a web server.
