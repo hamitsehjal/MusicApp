@@ -12,13 +12,20 @@ var HTTP_PORT = process.env.PORT || 8080;
 const upload = require('./utils/multer.js')
 const { cloudinary } = require('./utils/cloudinary.js')
 
+// importing handlebars
+const exphbs = require('express-handlebars')
+
+// Our server needs to know how to handle the HTML files that are formatted using handlebars
+app.engine('.hbs', exphbs.engine({ extname: '.hbs' }))
+app.set('view engine', '.hbs')
+
 // setting up the middleware for size of files to be uploaded
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 // SETTING A CALLBACK FUNCTION
 function OnHttpStart() {
-    console.log("HTTP Server listening on Port " + HTTP_PORT+"🎵🎵🎵🎵")
+    console.log("HTTP Server listening on Port " + HTTP_PORT + "🎵🎵🎵🎵")
 }
 
 // SETTING A ROUTE TO LISTEN ON DEFAULT URL (i.e localhost)
@@ -47,7 +54,8 @@ app.get('/albums/add', (req, res) => {
 
 app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
 
-    console.log("File Details for Mr.Hamit:\n", req.file.path);
+    //For *programmer's understanding
+    console.log("File Details for Mr.Hamit:\n", req.file);
     console.log("Files Uploaded!!!!")
 
     if (req.file) {
@@ -56,7 +64,7 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
 
         const results = await cloudinary.uploader.upload(req.file.path)
 
-        console.log("Results: ", results)
+        console.log("Results: ", results) //For *programmer's understanding
 
         var post_results = {
             title: req.body.Title, // to access textual data of form, use req.body
