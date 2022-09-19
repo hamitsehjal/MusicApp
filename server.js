@@ -9,8 +9,8 @@ var musicService = require("./music-service.js")
 var HTTP_PORT = process.env.PORT || 8080;
 
 // importing configured multer and cloudinary
-const upload = require('./utils/multer')
-const cloudinary = require('./utils/cloudinary')
+const upload = require('./utils/multer.js')
+const { cloudinary } = require('./utils/cloudinary.js')
 
 // setting up the middleware for size of files to be uploaded
 app.use(express.json({ limit: '50mb' }))
@@ -45,19 +45,28 @@ app.get('/albums/add', (req, res) => {
     res.sendFile(path.join(__dirname, '/views/addAlbum.html'))
 })
 
-app.post('/albums/add',upload.single('AlbumCover'),async(req,res,next)=>{
-    if(req.file)
-    {
+app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
+
+    console.log("File Details for Mr.Hamit:\n", req.file.path);
+    console.log("Files Uploaded!!!!")
+
+    if (req.file) {
+        //console.log("It's working!!!!!!")
         //cloudinary.v2.uploader.upload(file, options).then(callback);
-        const results=cloudinary.uploader.upload(req.file.path)
 
-        console.log("Results: ",results)
+        const results = await cloudinary.uploader.upload(req.file.path)
 
-        const post_results={
-            title:req.body.Title, // to access textual data of form, use req.body
-            image:results.public_id
+        console.log("Results: ", results)
+
+        var post_results = {
+            title: req.body.Title, // to access textual data of form, use req.body
+            image: results.public_id
         }
+
     }
+
+    res.status(200).json({ post_results })
+
 })
 
 // SETTING UP A ROUTE TO LISTEN ON "/genres"
