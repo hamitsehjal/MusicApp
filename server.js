@@ -50,7 +50,8 @@ app.get('/albums', (req, res) => {
 
 // SETTING UP THE ROUTE TO LISTEN ON "/albums/add"
 app.get('/albums/add', (req, res) => {
-    res.sendFile(path.join(__dirname, '/views/addAlbum.html'))
+    //res.sendFile(path.join(__dirname, '/views/addAlbum.html'))
+    res.render('addAlbum')
 })
 
 app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
