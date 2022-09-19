@@ -18,7 +18,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
 // SETTING A CALLBACK FUNCTION
 function OnHttpStart() {
-    console.log("HTTP Server listening on Port " + HTTP_PORT)
+    console.log("HTTP Server listening on Port " + HTTP_PORT+"🎵🎵🎵🎵")
 }
 
 // SETTING A ROUTE TO LISTEN ON DEFAULT URL (i.e localhost)
