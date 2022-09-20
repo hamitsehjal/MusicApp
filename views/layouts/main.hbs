@@ -34,9 +34,12 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/about">Home(current)</a></li>
-                    <li><a href="/albums">Albums</a></li>
-                    <li><a href="/genres">Genres</a></li>
+                    {{#navLink "/about"}}Home(current){{/navLink}}
+                    {{!-- <li class="active"><a href="/about">Home(current)</a></li> --}}
+                    {{#navLink "/albums"}}Albums{{/navLink}}
+                    {{!-- <li><a href="/albums">Albums</a></li> --}}
+                    {{#navLink "/genres"}}Genres{{/navLink}}
+                    {{!-- <li><a href="/genres">Genres</a></li> --}}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 
