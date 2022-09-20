@@ -16,8 +16,40 @@ const { cloudinary } = require('./utils/cloudinary.js')
 const exphbs = require('express-handlebars')
 
 // Our server needs to know how to handle the HTML files that are formatted using handlebars
-app.engine('.hbs', exphbs.engine({ extname: '.hbs' }))
+app.engine('.hbs', exphbs.engine({
+    extname: '.hbs',
+    helpers: {
+        navLink: function (url, options) { //custom helpers
+            return '<li' +
+                ((url == app.locals.activeRoute) ? ' class="active" ' : '') +
+                '><a href="' + url + '">' + options.fn(this) + '</a></li>';
+        },
+        equal: function (lvalue, rvalue, options) {
+            if (arguments.length < 3)
+                throw new Error("Handlebars Helper equal needs 2 parameters");
+            if (lvalue != rvalue) {
+                return options.inverse(this);
+            } else {
+                return options.fn(this);
+            }
+        }
+
+    }
+}))
 app.set('view engine', '.hbs')
+
+// This will add the property "activeRoute" to "app.locals" whenever the route changes, ie: 
+// if our route is "/blog/5", the app.locals.activeRoute value will be "/blog ". 
+// Also, if the blog is currently viewing a category, that category will be set in "app.locals".
+
+
+app.use(function (req, res, next) {
+    let route = req.path.substring(1);
+    app.locals.activeRoute = (route == "/") ? "/" : "/" + route.replace(/\/(.*)/, "");
+    app.locals.viewingCategory = req.query.category;
+    next();
+});
+
 
 // setting up the middleware for size of files to be uploaded
 app.use(express.json({ limit: '50mb' }))
