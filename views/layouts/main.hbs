@@ -34,13 +34,13 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    {{#navLink "/about"}}Home(current){{/navLink}}
-                    {{#navLink "/albums"}}Albums{{/navLink}}
-                    {{#navLink "/genres"}}Genres{{/navLink}}
+                    {{#navLink "/about"}}Home{{/navLink}}
+                    {{#navLink "/music"}}Music{{/navLink}}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-
-                    <li><a href="/albums/add">New Album</a></li>
+                    {{#navLink "/albums"}}Albums{{/navLink}}
+                    {{#navLink "/genres"}}Genres{{/navLink}}
+                    {{#navLink "/albums/add"}}New Album{{/navLink}}
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
