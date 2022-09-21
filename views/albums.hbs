@@ -1,24 +1,31 @@
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">Artist</th>
-            <th scope="col">Title</th>
-            <th scope="col">Label</th>
-            <th scope="col">Genre</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each albums}}
-        <tr>
-            <th scope="row">{{artist}}</th>
-            <td>{{Title}}</td>
-            <td>{{Label}}</td>
-            <td><a href="albums?genre={{Genre}}">{{Genre}}</a></td>
-        </tr>
-        {{else}}
-        <tr>
-            <td colspan="4">No Data Available</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div class="col-md-12">
+    <h2>Albums
+        <a href="/albums/add" class="btn btn-success pull-right">Add Post</a>
+    </h2>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Artist</th>
+                <th scope="col">Title</th>
+                <th scope="col">Label</th>
+                <th scope="col">Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each albums}}
+            <tr>
+                <th scope="row">{{artist}}</th>
+                <td>{{Title}}</td>
+                <td>{{Label}}</td>
+                <td><a href="albums?genre={{Genre}}">{{Genre}}</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{#unless albums}}
+    <div class="col-md-12 text-center">
+        <strong>{{message}}</strong>
+    </div>
+    {{/unless}}
+</div>

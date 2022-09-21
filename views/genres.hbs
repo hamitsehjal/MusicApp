@@ -1,20 +1,28 @@
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col"># ID</th>
-            <th scope="col">Genre</th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each genres}}
-        <tr>
-            <th scope="row">{{id}}</th>
-            <td>{{genre}}</td>
-        </tr>
-        {{else}}
-        <tr>
-            <td colspan="4">No Data Available</td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
+<div class="col-md-12">
+    <h2>genres
+        <a href="/genres/add" class="btn btn-success pull-right">Add Genre</a>
+    </h2>
+    <hr />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col"># ID</th>
+                <th scope="col">Genre</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each genres}}
+            <tr>
+                <th scope="row">{{id}}</th>
+                <td><a href="albums?genre={{genre}}">{{genre}}</a></td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+    </table>
+    {{#unless genres}}
+    <div class="col-md-12 text-center">
+        <strong>{{message}}</strong>
+    </div>
+    {{/unless}}
+</div>
