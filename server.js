@@ -75,8 +75,31 @@ app.get('/about', (req, res) => {
 })
 
 // SETTING UP A ROUTE TO LISTEN ON "/music"
-app.get('/music',(req,res)=>{
-    res.status(200).json({"msg":"Working fine"})
+app.get('/music', async (req, res) => {
+
+    //Declare an object to store properties for the view
+    let viewData = {};
+
+    try {
+        // declare an empty array to store "album" objects
+        let albums = []
+
+        // if there's a "genre" query, filter the returned posts by genre
+        if (req.query.genre) {
+            //obtain the albums by genre
+            albums = await musicService.getAlbumsByGenre(req.query.genre)
+        } else {
+            //obtain all the albums
+            albums = await musicService.getAllAlbums()
+        }
+
+        // sort the albums by postDate
+
+
+    } catch (err) {
+
+    }
+
 })
 // SETTING UP A ROUTE TO LISTEN ON "/albums"
 app.get('/albums', (req, res) => {
