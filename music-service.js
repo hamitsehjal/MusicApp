@@ -41,6 +41,24 @@ module.exports.getAllAlbums = () => {
     })
 }
 
+// GET ALBUMS BY GENRES
+module.exports.getAlbumsByGenre = (genre) => {
+    var albumsToBeReturned = [];
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < albums.length; i++) {
+            let result = genre.localeCompare(albums[i].Genre);
+            if (result) {
+                albumsToBeReturned.push(albums[i])
+            }
+        }
+        if (albumsToBeReturned) {
+            resolve(albumsToBeReturned)
+        }
+        else {
+            reject("NO DATA FOUND!!")
+        }
+    })
+}
 // GET ALL GENRES FUNCTION
 module.exports.getAllGenres = () => {
     return new Promise((resolve, reject) => {
