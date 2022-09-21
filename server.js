@@ -33,7 +33,6 @@ app.engine('.hbs', exphbs.engine({
                 return options.fn(this);
             }
         }
-
     }
 }))
 app.set('view engine', '.hbs')
@@ -46,7 +45,7 @@ app.set('view engine', '.hbs')
 app.use(function (req, res, next) {
     let route = req.path.substring(1);
     app.locals.activeRoute = (route == "/") ? "/" : "/" + route.replace(/\/(.*)/, "");
-    app.locals.viewingCategory = req.query.category;
+    app.locals.viewingGenre = req.query.genre;
     next();
 });
 
