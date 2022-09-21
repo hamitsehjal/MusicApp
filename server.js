@@ -73,9 +73,9 @@ app.get('/about', (req, res) => {
 // SETTING UP A ROUTE TO LISTEN ON "/albums"
 app.get('/albums', (req, res) => {
     musicService.getAllAlbums().then((data) => {
-        res.json(data)
+        res.render("albums", {albums: data})
     }).catch((err) => {
-        res.json({ "msg": err })
+        res.render('ablums',{"msg":err})
     })
 })
 
@@ -113,9 +113,13 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
 // SETTING UP A ROUTE TO LISTEN ON "/genres"
 app.get('/genres', (req, res) => {
     musicService.getAllGenres().then((data) => {
-        res.json(data)
+        res.render('genres',{
+            genres:data
+        })
     }).catch((err) => {
-        res.json({ "msg": err })
+        res.render('genres',{
+            "msg":err
+        })
     })
 })
 
