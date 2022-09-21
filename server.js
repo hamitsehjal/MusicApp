@@ -19,7 +19,7 @@ const exphbs = require('express-handlebars')
 app.engine('.hbs', exphbs.engine({
     extname: '.hbs',
     helpers: {
-        navLink: function (url, options) { //custom helpers
+        navLink: function (url, options) {
             return '<li' +
                 ((url == app.locals.activeRoute) ? ' class="active" ' : '') +
                 '><a href="' + url + '">' + options.fn(this) + '</a></li>';
@@ -45,7 +45,7 @@ app.set('view engine', '.hbs')
 app.use(function (req, res, next) {
     let route = req.path.substring(1);
     app.locals.activeRoute = (route == "/") ? "/" : "/" + route.replace(/\/(.*)/, "");
-    app.locals.viewingGenre = req.query.genre;
+    app.locals.viewingCategory = req.query.category;
     next();
 });
 
@@ -78,13 +78,19 @@ app.get('/albums', (req, res) => {
             res.render("albums", {
                 albums: data
             })
+        }).catch((err) => {
+            res.render('albums', {
+                message: "SORRY, NO RESULTS FOUND!!😔😔😔"
+            })
         })
     }
     else {
         musicService.getAllAlbums().then((data) => {
             res.render("albums", { albums: data })
         }).catch((err) => {
-            res.render('ablums', { "msg": err })
+            res.render('alums', {
+                message: "SORRY, NO RESULTS FOUND!!😔😔😔"
+            })
         })
     }
 
@@ -128,9 +134,9 @@ app.get('/genres', (req, res) => {
             genres: data
         })
     }).catch((err) => {
-        res.render('genres', {
-            "msg": err
-        })
+        res.render("genres", {
+            message: "SORRY, NO RESULTS FOUND!!😔😔😔"
+        });
     })
 })
 
