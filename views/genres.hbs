@@ -1,0 +1,20 @@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col"># ID</th>
+            <th scope="col">Genre</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each genres}}
+        <tr>
+            <th scope="row">{{id}}</th>
+            <td>{{genre}}</td>
+        </tr>
+        {{else}}
+        <tr>
+            <td colspan="4">No Data Available</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
