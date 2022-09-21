@@ -44,17 +44,19 @@ module.exports.getAllAlbums = () => {
 // GET ALBUMS BY GENRES
 module.exports.getAlbumsByGenre = (genre) => {
     var albumsToBeReturned = [];
+    //console.log(genre)
     return new Promise((resolve, reject) => {
         for (let i = 0; i < albums.length; i++) {
             let result = genre.localeCompare(albums[i].Genre);
-            if (result) {
+            if (result==0) {
                 albumsToBeReturned.push(albums[i])
             }
         }
-        if (albumsToBeReturned) {
+        if (albumsToBeReturned.length!=0) {
             resolve(albumsToBeReturned)
         }
         else {
+            // console.log("NO DATA FOUND!!")
             reject("NO DATA FOUND!!")
         }
     })
