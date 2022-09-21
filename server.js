@@ -33,7 +33,11 @@ app.engine('.hbs', exphbs.engine({
                 return options.fn(this);
             }
         }
+    },
+    safeHTML: function (context) {
+        return stripJs(context);
     }
+
 }))
 app.set('view engine', '.hbs')
 
@@ -70,6 +74,10 @@ app.get('/about', (req, res) => {
     res.render('about')
 })
 
+// SETTING UP A ROUTE TO LISTEN ON "/music"
+app.get('/music',(req,res)=>{
+    res.status(200).json({"msg":"Working fine"})
+})
 // SETTING UP A ROUTE TO LISTEN ON "/albums"
 app.get('/albums', (req, res) => {
     //albums?genre=1
