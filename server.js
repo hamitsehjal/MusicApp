@@ -77,29 +77,51 @@ app.get('/about', (req, res) => {
 // SETTING UP A ROUTE TO LISTEN ON "/music"
 app.get('/music', async (req, res) => {
 
-    //Declare an object to store properties for the view
-    let viewData = {};
+    //Declare an object to store the properties for the view
+    let viewData = [];
 
     try {
-        // declare an empty array to store "album" objects
-        let albums = []
+        //Declaring empty array to hold "albums" object
+        let albums = [];
 
-        // if there's a "genre" query, filter the returned posts by genre
+        // In case, there's a "Genre" query, filter the returned albums by genre
         if (req.query.genre) {
-            //obtain the albums by genre
-            albums = await musicService.getAlbumsByGenre(req.query.genre)
-        } else {
-            //obtain all the albums
-            albums = await musicService.getAllAlbums()
+            //Get all the albums by genre
+            albums = await musicService.getAlbumsByGenre(req.query.genre);
+        }
+        else {
+            // obtain all the albums
+            albums = await musicService.getAllAlbums();
         }
 
-        // sort the albums by postDate
+        // sort the albums by "Released(Date) attribute"
+        albums.sort((a, b) => new Date(b.Released) - new Date(a.Released))
 
+        // Get the latest album from the front of the list (i.e element 0)
+        let album = albums[0]
 
+        // store the "albums" and "album" data in the viewData object (to be passed to the view)
+        viewData.albums = albums;
+        viewData.album = album;
     } catch (err) {
-
+        viewData.message = "NO RESULTS!!"
     }
 
+    try {
+        // Get full list of all Genres
+        let categories = await musicService.getAllGenres();
+
+        // store the "categories" data in the viewData object (to be passed to the view)
+        viewData.categories = categories
+
+    } catch (err) {
+        viewData.message = "NO RESULTS!!"
+    }
+
+    // RENDER THE "music" view with all the data(i.e viewData)
+    res.render('music', {
+        data: viewData
+    })
 })
 // SETTING UP A ROUTE TO LISTEN ON "/albums"
 app.get('/albums', (req, res) => {
@@ -138,7 +160,7 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
     //For *programmer's understanding
     console.log("File Details for Mr.Hamit:\n", req.file);
     console.log("Files Uploaded!!!!\n")
-    console.log("Data of Form Submitted",req.body)
+    console.log("Data of Form Submitted", req.body)
 
     if (req.file) {
         //console.log("It's working!!!!!!")
@@ -150,7 +172,7 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
         // }).catch((err)=>{
         //     res.send({message:err})
         // })
-       
+
     }
     // console.log("Results: ", results) //For *programmer's understanding
 
@@ -158,16 +180,16 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
     //     title: req.body.Title, // to access textual data of form, use req.body
     //     image: results.public_id
     // }
-    musicService.addAlbum(req.body).then(()=>{
+    musicService.addAlbum(req.body).then(() => {
         res.redirect("/albums")
-    }).catch((err)=>{
-        res.send({message:err})
+    }).catch((err) => {
+        res.send({ message: err })
     })
 
 })
 
-    //res.status(200).json({ post_results })
-    // res.redirect('/albums')
+//res.status(200).json({ post_results })
+// res.redirect('/albums')
 
 // })
 
