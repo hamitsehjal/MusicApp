@@ -15,6 +15,7 @@ const { cloudinary } = require('./utils/cloudinary.js')
 // importing handlebars
 const exphbs = require('express-handlebars')
 
+const stripJs = require('strip-js')
 // Our server needs to know how to handle the HTML files that are formatted using handlebars
 app.engine('.hbs', exphbs.engine({
     extname: '.hbs',
@@ -50,7 +51,7 @@ app.set('view engine', '.hbs')
 app.use(function (req, res, next) {
     let route = req.path.substring(1);
     app.locals.activeRoute = (route == "/") ? "/" : "/" + route.replace(/\/(.*)/, "");
-    app.locals.viewingGenre = req.query.Genre;
+    app.locals.viewingGenre = req.query.genre;
     next();
 });
 
@@ -79,7 +80,7 @@ app.get('/about', (req, res) => {
 app.get('/music', async (req, res) => {
 
     //Declare an object to store the properties for the view
-    let viewData = [];
+    let viewData = {};
 
     try {
         //Declaring empty array to hold "albums" object
@@ -127,6 +128,56 @@ app.get('/music', async (req, res) => {
     })
 })
 
+// SETTING UP A ROUTE TO LISTEN ON "/music/:id"
+app.get("/music/:id", (async (req, res) => {
+    // Declare an object to store properties for the view
+    let viewData = {};
+
+    try {
+        // declare empty array to hold "album" object
+        let albums = []
+
+        // if there's a "Genre" query, filter the returned albums by genre
+        if (req.query.genre) {
+            // obtain the albums by genre
+            albums = await musicService.getAlbumsByGenre(req.query.genre)
+        } else {
+            // obtain the albums
+            albums = await musicService.getAllAlbums();
+        }
+
+        // sort the albums by "Released(Date" attribute
+        albums.sort((a, b) => new Date(b.Released) - new Date(a.Released))
+
+        // store the albums data in viewData object
+        viewData.albums = albums;
+
+    } catch (err) {
+        viewData.message = "SORRY, NO RESULTS FOUND!!😔😔😔"
+    }
+
+    try {
+        // obtain albums by "id"
+        viewData.album = await musicService.getAlbumsById(req.params.id);
+    } catch (err) {
+        viewData.message = "SORRY, NO RESULTS FOUND!!😔😔😔";
+    }
+
+    try {
+        // obtain the full list of genres
+        viewData.genres = await musicService.getAllGenres();
+    } catch (err) {
+        viewData.message = "SORRY, NO RESULTS FOUND!!😔😔😔";
+    }
+
+    // render the "music" view with all the data (i.e viewData)
+    res.render('music',
+        {
+            data: viewData
+        })
+
+}))
+
 // SETTING UP A ROUTE TO LISTEN ON "/albums"
 app.get('/albums', (req, res) => {
     //albums?genre=1
@@ -153,22 +204,7 @@ app.get('/albums', (req, res) => {
 
 })
 
-// SETTING UP A ROUTE TO LISTEN ON "/albums/:id"
-app.get("/albums/:id", ((req, res) => {
-    if (req.params.id) {
-        musicService.getAlbumsById(req.params.id).then((data) => {
-            res.render("albums",
-                {
-                    albums: data
-                })
-        }).catch((err) => {
-            res.render("albums", {
-                message: "SORRY, NO RESULTS FOUND!!😔😔😔"
-            })
-        })
-    }
 
-}))
 // SETTING UP THE ROUTE TO LISTEN ON "/albums/add"
 app.get('/albums/add', (req, res) => {
     //res.sendFile(path.join(__dirname, '/views/addAlbum.html'))
