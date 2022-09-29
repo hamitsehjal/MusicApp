@@ -33,8 +33,7 @@ module.exports.initialize = () => {
 // GET ALL ALBUMS FUNCTION
 module.exports.getAllAlbums = () => {
     return new Promise((resolve, reject) => {
-        if (albums.length)
-        {
+        if (albums.length) {
             //console.log(albums);
             resolve(albums)
 
@@ -52,12 +51,12 @@ module.exports.getAlbumsByGenre = (genre) => {
     return new Promise((resolve, reject) => {
         for (let i = 0; i < albums.length; i++) {
             let result = genre.localeCompare(albums[i].Genre);
-            if (result==0) {
+            if (result == 0) {
                 albumsToBeReturned.push(albums[i])
             }
         }
-        if (albumsToBeReturned.length!=0) {
-            
+        if (albumsToBeReturned.length != 0) {
+
             resolve(albumsToBeReturned)
         }
         else {
@@ -65,6 +64,26 @@ module.exports.getAlbumsByGenre = (genre) => {
             reject("NO DATA FOUND!!")
         }
     })
+}
+
+// GET ALBUMS BY ID
+module.exports.getAlbumsById = (id) => {
+    let albumToBeReturned = [];
+    return new Promise((resolve, reject) => {
+        for (let i = 0; i < albums.length; i++) {
+            if (id == albums[i].id)
+                albumToBeReturned = albums[i];
+        }
+
+        if(albumToBeReturned.length!=0)
+        {
+            resolve(albumToBeReturned)
+        }
+        else{
+            reject("NO DATA FOUND!!")
+        }
+    })
+
 }
 // GET ALL GENRES FUNCTION
 module.exports.getAllGenres = () => {
