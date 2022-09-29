@@ -102,7 +102,9 @@ app.get('/music', async (req, res) => {
 
         // store the "albums" and "album" data in the viewData object (to be passed to the view)
         viewData.albums = albums;
+        console.log("All Albums are: ",albums)
         viewData.album = album;
+        console.log("Single Album is : ",album)
     } catch (err) {
         viewData.message = "NO RESULTS!!"
     }
