@@ -137,26 +137,39 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
 
     //For *programmer's understanding
     console.log("File Details for Mr.Hamit:\n", req.file);
-    console.log("Files Uploaded!!!!")
+    console.log("Files Uploaded!!!!\n")
+    console.log("Data of Form Submitted",req.body)
 
     if (req.file) {
         //console.log("It's working!!!!!!")
         //cloudinary.v2.uploader.upload(file, options).then(callback);
 
         const results = await cloudinary.uploader.upload(req.file.path)
-
-        console.log("Results: ", results) //For *programmer's understanding
-
-        var post_results = {
-            title: req.body.Title, // to access textual data of form, use req.body
-            image: results.public_id
-        }
-
+        // musicService.addAlbum(req.body).then(()=>{
+        //     res.redirect("/albums")
+        // }).catch((err)=>{
+        //     res.send({message:err})
+        // })
+       
     }
+    // console.log("Results: ", results) //For *programmer's understanding
 
-    res.status(200).json({ post_results })
+    // var post_results = {
+    //     title: req.body.Title, // to access textual data of form, use req.body
+    //     image: results.public_id
+    // }
+    musicService.addAlbum(req.body).then(()=>{
+        res.redirect("/albums")
+    }).catch((err)=>{
+        res.send({message:err})
+    })
 
 })
+
+    //res.status(200).json({ post_results })
+    // res.redirect('/albums')
+
+// })
 
 // SETTING UP A ROUTE TO LISTEN ON "/genres"
 app.get('/genres', (req, res) => {
