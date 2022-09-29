@@ -32,11 +32,12 @@ app.engine('.hbs', exphbs.engine({
             } else {
                 return options.fn(this);
             }
+        },
+        safeHTML: function (context) {
+            return stripJs(context);
         }
-    },
-    safeHTML: function (context) {
-        return stripJs(context);
     }
+
 
 }))
 app.set('view engine', '.hbs')
@@ -49,7 +50,7 @@ app.set('view engine', '.hbs')
 app.use(function (req, res, next) {
     let route = req.path.substring(1);
     app.locals.activeRoute = (route == "/") ? "/" : "/" + route.replace(/\/(.*)/, "");
-    app.locals.viewingCategory = req.query.category;
+    app.locals.viewingGenre = req.query.Genre;
     next();
 });
 
@@ -102,19 +103,19 @@ app.get('/music', async (req, res) => {
 
         // store the "albums" and "album" data in the viewData object (to be passed to the view)
         viewData.albums = albums;
-        console.log("All Albums are: ",albums)
+        console.log("All Albums are: ", albums)
         viewData.album = album;
-        console.log("Single Album is : ",album)
+        console.log("Single Album is : ", album)
     } catch (err) {
         viewData.message = "NO RESULTS!!"
     }
 
     try {
         // Get full list of all Genres
-        let categories = await musicService.getAllGenres();
+        let genres = await musicService.getAllGenres();
 
         // store the "categories" data in the viewData object (to be passed to the view)
-        viewData.categories = categories
+        viewData.genres = genres
 
     } catch (err) {
         viewData.message = "NO RESULTS!!"
@@ -125,6 +126,7 @@ app.get('/music', async (req, res) => {
         data: viewData
     })
 })
+
 // SETTING UP A ROUTE TO LISTEN ON "/albums"
 app.get('/albums', (req, res) => {
     //albums?genre=1
@@ -143,7 +145,7 @@ app.get('/albums', (req, res) => {
         musicService.getAllAlbums().then((data) => {
             res.render("albums", { albums: data })
         }).catch((err) => {
-            res.render('alums', {
+            res.render('albums', {
                 message: "SORRY, NO RESULTS FOUND!!😔😔😔"
             })
         })
@@ -151,6 +153,22 @@ app.get('/albums', (req, res) => {
 
 })
 
+// SETTING UP A ROUTE TO LISTEN ON "/albums/:id"
+app.get("/albums/:id", ((req, res) => {
+    if (req.params.id) {
+        musicService.getAlbumsById(req.params.id).then((data) => {
+            res.render("albums",
+                {
+                    albums: data
+                })
+        }).catch((err) => {
+            res.render("albums", {
+                message: "SORRY, NO RESULTS FOUND!!😔😔😔"
+            })
+        })
+    }
+
+}))
 // SETTING UP THE ROUTE TO LISTEN ON "/albums/add"
 app.get('/albums/add', (req, res) => {
     //res.sendFile(path.join(__dirname, '/views/addAlbum.html'))
