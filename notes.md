@@ -9,6 +9,10 @@
 
 ### We use app.engine to match a specific view extension with a template engine. For example if you want to map all html view templates to a specific engine you would register it here.
 
+### Async means asynchronous. It allows a program to run a function without freezing the entire program. This is done using the Async/Await keyword.
+
+Async/Await makes it easier to write promises. The keyword ‘async’ before a function makes the function return a promise, always. And the keyword await is used inside async functions, which makes the program wait until the Promise resolves.
+
 ## OBJECTIVE
 1. We are making a functioning web-based Music Application capable of responding to request for content, reacting predictably to errors and storing/retrieving user information and application data.
 2. We will be studying how web browsers send data to and from a web server.
