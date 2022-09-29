@@ -35,7 +35,7 @@ module.exports.getAllAlbums = () => {
     return new Promise((resolve, reject) => {
         if (albums.length)
         {
-            console.log(albums);
+            //console.log(albums);
             resolve(albums)
 
         }
@@ -82,7 +82,7 @@ module.exports.addAlbum = (newAlbum) => {
         if (newAlbum) {
             newAlbum.id = albums.length + 1;
             albums.push(newAlbum)
-            console.log(albums);
+            //console.log(albums);
             resolve(newAlbum)
         }
         else {
