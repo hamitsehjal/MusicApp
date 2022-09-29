@@ -34,7 +34,11 @@ module.exports.initialize = () => {
 module.exports.getAllAlbums = () => {
     return new Promise((resolve, reject) => {
         if (albums.length)
+        {
+            console.log(albums);
             resolve(albums)
+
+        }
         else
             reject("NO DATA FOUND!!")
 
@@ -53,6 +57,7 @@ module.exports.getAlbumsByGenre = (genre) => {
             }
         }
         if (albumsToBeReturned.length!=0) {
+            
             resolve(albumsToBeReturned)
         }
         else {
