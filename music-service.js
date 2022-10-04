@@ -74,15 +74,17 @@ module.exports.getAlbumsByGenre = (genre) => {
 
 // GET ALBUMS BY ID
 module.exports.getAlbumsById = (id) => {
-    let albumToBeReturned = [];
+    let albumToBeReturned = {};
+    let albumsReturned = [];
     return new Promise((resolve, reject) => {
         for (let i = 0; i < albums.length; i++) {
             if (id == albums[i].id)
-                albumToBeReturned.push(albums[i]);
+                albumsReturned.push(albums[i]);
         }
 
-        if (albumToBeReturned.length != 0) {
+        if (albumsReturned.length != 0) {
             //console.log(albumToBeReturned)
+            albumToBeReturned=albumsReturned[0];
             resolve(albumToBeReturned)
         }
         else {
