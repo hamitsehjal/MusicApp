@@ -256,7 +256,10 @@ app.get('/genres', (req, res) => {
 
 // SETTING UP A 404 PAGE
 app.use((req, res) => {
-    res.status(404).send("Page not Found!!")
+    // res.status(404).send("Page not Found!!")
+    res.render("404",{
+        data:null
+    })
 })
 
 
