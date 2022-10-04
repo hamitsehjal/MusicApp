@@ -27,27 +27,26 @@
     </section>
     <aside class="col-md-3">
         <br /><br />
+
+        {{#if data.albums}}
         <h4>Albums</h4>
 
         <ul class="list-group">
             {{#each data.albums}}
+            {{!-- <a href="/music/4?genre=2" class="list-group-item"> {{Title}}</a> --}}
             <a href="/music/{{id}}?genre={{../viewingGenre}}" class="list-group-item"> {{Title}}</a>
-            {{!-- <a href="/blog/{{id}}?category={{../viewingCategory}}" class="list-group-item">Post {{id}}</a> --}}
             {{/each}}
-            {{!-- <a href="#" class="list-group-item">Post 1</a>
-            <a href="#" class="list-group-item">Post 2</a>
-            <a href="#" class="list-group-item">etc...</a> --}}
         </ul>
+        {{/if}}
 
+        {{#if data.genres}}
         <h4>Genres</h4>
 
         <ul class="list-group">
             {{#each data.genres}}
-            {{!-- <a href="#" class="list-group-item">Genre: {{genre}}</a> --}}
-            <a href="/music?genre={{id}}"class="list-group-item">Genre: {{genre}}</a>
+            <a href="/music?genre={{id}}" class="list-group-item">{{genre}}</a>
             {{/each}}
-            {{!-- <a href="#" class="list-group-item">Category 2</a>
-            <a href="#" class="list-group-item">etc...</a> --}}
         </ul>
+        {{/if}}
     </aside>
 </div>
