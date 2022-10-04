@@ -19,7 +19,7 @@
         {{else}}
         <div class="col-md-12 text-center">
             <h2>{{data.message}}</h2>
-            <p>Please try another Post / Category</p>
+            <p>Please try another Album/Genre</p>
         </div>
 
         {{/if}}
@@ -33,7 +33,6 @@
 
         <ul class="list-group">
             {{#each data.albums}}
-            {{!-- <a href="/music/4?genre=2" class="list-group-item"> {{Title}}</a> --}}
             <a href="/music/{{id}}?genre={{../viewingGenre}}" class="list-group-item"> {{Title}}</a>
             {{/each}}
         </ul>
