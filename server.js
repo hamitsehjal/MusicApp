@@ -67,7 +67,7 @@ function OnHttpStart() {
 
 // SETTING A ROUTE TO LISTEN ON DEFAULT URL (i.e localhost)
 app.get('/', function (req, res) {
-    res.redirect('/about')
+    res.redirect('/music')
 })
 
 // SETTING UP A ROUTE TO LISTEN ON "/about"
@@ -76,6 +76,7 @@ app.get('/about', (req, res) => {
     res.render('about')
 })
 
+//music?genre=1
 // SETTING UP A ROUTE TO LISTEN ON "/music"
 app.get('/music', async (req, res) => {
 
@@ -104,9 +105,9 @@ app.get('/music', async (req, res) => {
 
         // store the "albums" and "album" data in the viewData object (to be passed to the view)
         viewData.albums = albums;
-        console.log("All Albums are: ", albums)
+        // console.log("(not ID ONE) All Albums are: ", albums)
         viewData.album = album;
-        console.log("Single Album is : ", album)
+        // console.log("(not ID ONE) Single Album is : ", album)
     } catch (err) {
         viewData.message = "NO RESULTS!!"
     }
@@ -119,17 +120,19 @@ app.get('/music', async (req, res) => {
         viewData.genres = genres
 
     } catch (err) {
-        viewData.message = "NO RESULTS!!"
+        viewData.categoriesMessage = "NO RESULTS!!"
     }
 
+    console.log("(NOT ID ONE) Value of ViewData is: ", viewData)
     // RENDER THE "music" view with all the data(i.e viewData)
     res.render('music', {
         data: viewData
     })
 })
 
+//music/1?genre=1
 // SETTING UP A ROUTE TO LISTEN ON "/music/:id"
-app.get("/music/:id", (async (req, res) => {
+app.get("/music/:id", async (req, res) => {
     // Declare an object to store properties for the view
     let viewData = {};
 
@@ -151,14 +154,14 @@ app.get("/music/:id", (async (req, res) => {
 
         // store the albums data in viewData object
         viewData.albums = albums;
-
     } catch (err) {
         viewData.message = "SORRY, NO RESULTS FOUND!!😔😔😔"
     }
 
     try {
         // obtain albums by "id"
-        viewData.album = await musicService.getAlbumsById(req.params.id);
+        let album = await musicService.getAlbumsById(req.params.id);
+        viewData.album = album;
     } catch (err) {
         viewData.message = "SORRY, NO RESULTS FOUND!!😔😔😔";
     }
@@ -167,16 +170,16 @@ app.get("/music/:id", (async (req, res) => {
         // obtain the full list of genres
         viewData.genres = await musicService.getAllGenres();
     } catch (err) {
-        viewData.message = "SORRY, NO RESULTS FOUND!!😔😔😔";
+        viewData.categoriesMessage = "SORRY, NO RESULTS FOUND!!😔😔😔";
     }
 
-    // render the "music" view with all the data (i.e viewData)
-    res.render('music',
-        {
-            data: viewData
-        })
+    console.log("(ID ONE) Value of ViewData is: ", viewData)
+    // RENDER THE "music" view with all the data(i.e viewData)
+    res.render('music', {
+        data: viewData
+    })
 
-}))
+})
 
 // SETTING UP A ROUTE TO LISTEN ON "/albums"
 app.get('/albums', (req, res) => {
