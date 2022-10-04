@@ -123,7 +123,7 @@ app.get('/music', async (req, res) => {
         viewData.categoriesMessage = "NO RESULTS!!"
     }
 
-    console.log("(NOT ID ONE) Value of ViewData is: ", viewData)
+    // console.log("(NOT ID ONE) Value of ViewData is: ", viewData)
     // RENDER THE "music" view with all the data(i.e viewData)
     res.render('music', {
         data: viewData
@@ -146,6 +146,7 @@ app.get("/music/:id", async (req, res) => {
             albums = await musicService.getAlbumsByGenre(req.query.genre)
         } else {
             // obtain the albums
+
             albums = await musicService.getAllAlbums();
         }
 
@@ -160,8 +161,10 @@ app.get("/music/:id", async (req, res) => {
 
     try {
         // obtain albums by "id"
-        let album = await musicService.getAlbumsById(req.params.id);
+        let album = {};
+        album=await musicService.getAlbumsById(req.params.id);
         viewData.album = album;
+
     } catch (err) {
         viewData.message = "SORRY, NO RESULTS FOUND!!😔😔😔";
     }
@@ -169,11 +172,12 @@ app.get("/music/:id", async (req, res) => {
     try {
         // obtain the full list of genres
         viewData.genres = await musicService.getAllGenres();
+
     } catch (err) {
         viewData.categoriesMessage = "SORRY, NO RESULTS FOUND!!😔😔😔";
     }
 
-    console.log("(ID ONE) Value of ViewData is: ", viewData)
+    // console.log("(ID ONE) Value of ViewData is: ", viewData)
     // RENDER THE "music" view with all the data(i.e viewData)
     res.render('music', {
         data: viewData
@@ -222,23 +226,12 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
     console.log("Data of Form Submitted", req.body)
 
     if (req.file) {
-        //console.log("It's working!!!!!!")
         //cloudinary.v2.uploader.upload(file, options).then(callback);
-
         const results = await cloudinary.uploader.upload(req.file.path)
-        // musicService.addAlbum(req.body).then(()=>{
-        //     res.redirect("/albums")
-        // }).catch((err)=>{
-        //     res.send({message:err})
-        // })
+    
 
     }
-    // console.log("Results: ", results) //For *programmer's understanding
-
-    // var post_results = {
-    //     title: req.body.Title, // to access textual data of form, use req.body
-    //     image: results.public_id
-    // }
+ 
     musicService.addAlbum(req.body).then(() => {
         res.redirect("/albums")
     }).catch((err) => {
@@ -247,10 +240,6 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
 
 })
 
-//res.status(200).json({ post_results })
-// res.redirect('/albums')
-
-// })
 
 // SETTING UP A ROUTE TO LISTEN ON "/genres"
 app.get('/genres', (req, res) => {
