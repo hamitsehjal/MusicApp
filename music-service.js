@@ -165,14 +165,30 @@ module.exports.getAllGenres = () => {
 // addAlbum function
 module.exports.addAlbum = (newAlbum) => {
     return new Promise((resolve, reject) => {
-        if (newAlbum) {
-            newAlbum.id = albums.length + 1;
-            albums.push(newAlbum)
-            //console.log(albums);
-            resolve(newAlbum)
-        }
-        else {
-            reject("No Data Found!!")
-        }
+        Album.create(newAlbum).then((data) => {
+            resolve(data)
+        }).catch((err) => {
+            reject("UNABLE TO CREATE ALBUM")
+        })
+        //     if (newAlbum) {
+        //         newAlbum.id = albums.length + 1;
+        //         albums.push(newAlbum)
+        //         //console.log(albums);
+        //         resolve(newAlbum)
+        //     }
+        //     else {
+        //         reject("No Data Found!!")
+        //     }
+    })
+}
+
+// addGenre Function
+module.exports.addGenre = (newGenre) => {
+    return new Promise((resolve, reject) => {
+        Genre.create(newGenre).then((data) => {
+            resolve(data)
+        }).catch((err) => {
+            reject("UNABLE TO CREATE Genre")
+        })
     })
 }
