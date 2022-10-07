@@ -80,9 +80,9 @@ module.exports.getAlbumsByGenre = (genre_value) => {
             where: {
                 genre: genre_value
             }
-        }).then((data)=>{
+        }).then((data) => {
             resolve(data)
-        }).catch((err)=>{
+        }).catch((err) => {
             reject("NO DATA FOUND!!")
         })
     })
@@ -113,33 +113,52 @@ module.exports.getAlbumsByGenre = (genre_value) => {
 }
 
 // GET ALBUMS BY ID
-module.exports.getAlbumsById = (id) => {
-    let albumToBeReturned = {};
-    let albumsReturned = [];
+module.exports.getAlbumsById = (id_value) => {
     return new Promise((resolve, reject) => {
-        for (let i = 0; i < albums.length; i++) {
-            if (id == albums[i].id)
-                albumsReturned.push(albums[i]);
-        }
+        Album.findAll(
+            {
+                where: {
+                    id: id_value
 
-        if (albumsReturned.length != 0) {
-            //console.log(albumToBeReturned)
-            albumToBeReturned = albumsReturned[0];
-            resolve(albumToBeReturned)
-        }
-        else {
+                }
+            }
+        ).then((data) => {
+            resolve(data)
+        }).catch((err) => {
             reject("NO DATA FOUND!!")
-        }
+        })
     })
+    // let albumToBeReturned = {};
+    // let albumsReturned = [];
+    // return new Promise((resolve, reject) => {
+    //     for (let i = 0; i < albums.length; i++) {
+    //         if (id == albums[i].id)
+    //             albumsReturned.push(albums[i]);
+    //     }
+
+    //     if (albumsReturned.length != 0) {
+    //         //console.log(albumToBeReturned)
+    //         albumToBeReturned = albumsReturned[0];
+    //         resolve(albumToBeReturned)
+    //     }
+    //     else {
+    //         reject("NO DATA FOUND!!")
+    //     }
+    // })
 
 }
 // GET ALL GENRES FUNCTION
 module.exports.getAllGenres = () => {
     return new Promise((resolve, reject) => {
-        if (genres.length)
-            resolve(genres)
-        else
+        Genre.findAll().then((data) => {
+            resolve(data)
+        }).catch((err) => {
             reject("NO DATA FOUND!!")
+        })
+        // if (genres.length)
+        //     resolve(genres)
+        // else
+        //     reject("NO DATA FOUND!!")
     })
 }
 
