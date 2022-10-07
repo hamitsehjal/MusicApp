@@ -286,6 +286,14 @@ app.get('/genres', (req, res) => {
     })
 })
 
+// SETTING UP a Route to listen on "/albums/delete/:id"
+app.get("/albums/delete/:id",(req,res)=>{
+    musicService.deleteAlbumById(req.body).then((data)=>{
+        res.redirect('/albums')
+    }).catch((err)=>{
+        res.status(500).send("Unable to Album Category / Album not found)")
+    })
+})
 // SETTING UP A ROUTE TO LISTEN ON "/genres/add"
 
 app.get('/genres/add', (req, res) => {
@@ -301,6 +309,15 @@ app.post('/genres/add', (req, res) => {
         res.redirect('/genres')
     }).catch((err) => {
         res.send({ message: err })
+    })
+})
+
+// SETTING UP a Route to listen on "/genres/delete/:id"
+app.get("/genres/delete/:id",(req,res)=>{
+    musicService.deleteGenreById(req.body).then((data)=>{
+        res.redirect('/genres')
+    }).catch((err)=>{
+        res.status(500).send("Unable to Genre Category / Genre not found)")
     })
 })
 // SETTING UP A 404 PAGE
