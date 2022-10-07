@@ -19,53 +19,43 @@ var sequelize = new Sequelize('d3adkl47qantkc', 'bdvyosqesfulia', '12b34366538bc
 
 // CREATING DATA MODELS
 
-var Album=sequelize.define('Album',{
-    id:{
-        type:Sequelize.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
+var Album = sequelize.define('Album', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    artist:Sequelize.STRING,
-    Title:Sequelize.STRING,
-    Label:Sequelize.STRING,
-    AlbumCover:Sequelize.STRING,
-    Released:Sequelize.DATE,
-    Singles:Sequelize.STRING,
-    Genre:Sequelize.STRING
-    
+    artist: Sequelize.STRING,
+    Title: Sequelize.STRING,
+    Label: Sequelize.STRING,
+    AlbumCover: Sequelize.STRING,
+    Released: Sequelize.DATE,
+    Singles: Sequelize.STRING,
+    Genre: Sequelize.STRING
+
 })
 
-var Genre=sequelize.define('Genre',{
-    id:{
-        type:Sequelize.INTEGER,
-        autoIncrement:true,
-        primaryKey:true
+var Genre = sequelize.define('Genre', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    genre:Sequelize.STRING
+    genre: Sequelize.STRING
 })
 
+// Defining relationship between Album and Genre
+// This will ensure that our "Album" model has a "genre" column that will act as a foreign key to the Genre model
+
+Album.belongsTo(Genre,{foreignKey:'genre'})
 
 // INITIALIZE FUNCTION
 module.exports.initialize = () => {
-    return new Promise((resolve, reject) => {
-        fs.readFile('./data/albums.json', 'utf-8', (err, data) => {
-            if (err)
-                reject("unable to read file");
-
-            // parsing the data and storing it in albums array
-            albums = JSON.parse(data)
-            //console.log(data)
-
-            fs.readFile('./data/genres.json', 'utf-8', (err, data) => {
-                if (err)
-                    reject("unable to read file");
-
-                // parsing the data and storing it in genres array
-                genres = JSON.parse(data)
-                console.log(data)
-
-                resolve("SUCCESS - DATA PARSED SUCCESFULLY !!!")
-            })
+    return new Promise((resolve,reject)=>{
+        sequelize.sync().then(()=>{
+            resolve('CONNECTION SUCCESSFULL!!')
+        }).catch((err)=>{
+            reject("CONNECTION UN-SUCCESSFULL!!")
         })
     })
 }
