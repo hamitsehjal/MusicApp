@@ -182,6 +182,17 @@ module.exports.addAlbum = (newAlbum) => {
     })
 }
 
+// delete Album by id function
+module.exports.deleteAlbumById = (id_value) => {
+    return new Promise((resolve, reject) => {
+        Album.destroy({
+            where: {
+                id: id_value
+            }
+        })
+    })
+}
+
 // addGenre Function
 module.exports.addGenre = (newGenre) => {
     return new Promise((resolve, reject) => {
@@ -189,6 +200,17 @@ module.exports.addGenre = (newGenre) => {
             resolve(data)
         }).catch((err) => {
             reject("UNABLE TO CREATE Genre")
+        })
+    })
+}
+
+// delete Genre by id function
+module.exports.deleteGenreById = (id_value) => {
+    return new Promise((resolve, reject) => {
+        Genre.destroy({
+            where: {
+                id: id_value
+            }
         })
     })
 }
