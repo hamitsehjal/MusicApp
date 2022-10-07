@@ -36,7 +36,15 @@ app.engine('.hbs', exphbs.engine({
         },
         safeHTML: function (context) {
             return stripJs(context);
-        }
+        },
+        formatDate: function (dateObj) {
+            let year = dateObj.getFullYear();
+            let month = (dateObj.getMonth() + 1).toString();
+            let day = dateObj.getDate().toString();
+            return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+        },
+
+
     }
 
 
@@ -162,7 +170,7 @@ app.get("/music/:id", async (req, res) => {
     try {
         // obtain albums by "id"
         let album = {};
-        album=await musicService.getAlbumsById(req.params.id);
+        album = await musicService.getAlbumsById(req.params.id);
         viewData.album = album;
 
     } catch (err) {
@@ -228,10 +236,10 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
     if (req.file) {
         //cloudinary.v2.uploader.upload(file, options).then(callback);
         const results = await cloudinary.uploader.upload(req.file.path)
-    
+
 
     }
- 
+
     musicService.addAlbum(req.body).then(() => {
         res.redirect("/albums")
     }).catch((err) => {
@@ -257,8 +265,8 @@ app.get('/genres', (req, res) => {
 // SETTING UP A 404 PAGE
 app.use((req, res) => {
     // res.status(404).send("Page not Found!!")
-    res.render("404",{
-        data:null
+    res.render("404", {
+        data: null
     })
 })
 
