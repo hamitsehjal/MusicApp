@@ -8,6 +8,7 @@
             <tr>
                 <th scope="col"># ID</th>
                 <th scope="col">Genre</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -15,6 +16,7 @@
             <tr>
                 <th scope="row">{{id}}</th>
                 <td><a href="albums?genre={{id}}">{{genre}}</a></td>
+                <td ><a class="btn btn-danger" href="/genres/delete/:{{id}}">Remove</a></td>
             </tr>
             {{/each}}
 
