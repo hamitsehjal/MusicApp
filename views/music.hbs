@@ -13,7 +13,7 @@
 
             <br /><br />
             <strong>Genre: </strong> {{data.album.Genre}}<br />
-            <strong>Last Updated: </strong> {{data.album.Released}}
+            <strong>Last Updated: </strong> {{#formatDate data.album.Released}}{{/formatDate}}
 
         </article>
         {{else}}
