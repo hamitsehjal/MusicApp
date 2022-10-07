@@ -1,9 +1,20 @@
-const fs = require("fs")
+// const fs = require("fs")
 
-// global variables
-var albums = [];
-var genres = [];
+// // global variables
+// var albums = [];
+// var genres = [];
 
+const Sequelize=require('sequelize')
+
+var sequelize=new Sequelize('d3adkl47qantkc','bdvyosqesfulia','12b34366538bc22e4fc755e368da5cc2d88e65c0873b0f233f6265dbf2b051eb',{
+    host:'ec2-3-219-19-205.compute-1.amazonaws.com',
+    dialect:'postgres',
+    port:5432,
+    dialectOptions:{
+        ssl:{rejectUnauthorized:false}
+    },
+    query:{raw:true}
+})
 
 // INITIALIZE FUNCTION
 module.exports.initialize = () => {
