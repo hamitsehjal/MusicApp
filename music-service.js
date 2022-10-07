@@ -4,17 +4,46 @@
 // var albums = [];
 // var genres = [];
 
-const Sequelize=require('sequelize')
+const Sequelize = require('sequelize')
 
-var sequelize=new Sequelize('d3adkl47qantkc','bdvyosqesfulia','12b34366538bc22e4fc755e368da5cc2d88e65c0873b0f233f6265dbf2b051eb',{
-    host:'ec2-3-219-19-205.compute-1.amazonaws.com',
-    dialect:'postgres',
-    port:5432,
-    dialectOptions:{
-        ssl:{rejectUnauthorized:false}
+var sequelize = new Sequelize('d3adkl47qantkc', 'bdvyosqesfulia', '12b34366538bc22e4fc755e368da5cc2d88e65c0873b0f233f6265dbf2b051eb', {
+    host: 'ec2-3-219-19-205.compute-1.amazonaws.com',
+    dialect: 'postgres',
+    port: 5432,
+    dialectOptions: {
+        ssl: { rejectUnauthorized: false }
     },
-    query:{raw:true}
+    query: { raw: true }
 })
+
+
+// CREATING DATA MODELS
+
+var Album=sequelize.define('Album',{
+    id:{
+        type:Sequelize.INTEGER,
+        autoIncrement:true,
+        primaryKey:true
+    },
+    artist:Sequelize.STRING,
+    Title:Sequelize.STRING,
+    Label:Sequelize.STRING,
+    AlbumCover:Sequelize.STRING,
+    Released:Sequelize.DATE,
+    Singles:Sequelize.STRING,
+    Genre:Sequelize.STRING
+    
+})
+
+var Genre=sequelize.define('Genre',{
+    id:{
+        type:Sequelize.INTEGER,
+        autoIncrement:true,
+        primaryKey:true
+    },
+    genre:Sequelize.STRING
+})
+
 
 // INITIALIZE FUNCTION
 module.exports.initialize = () => {
@@ -95,7 +124,7 @@ module.exports.getAlbumsById = (id) => {
 
         if (albumsReturned.length != 0) {
             //console.log(albumToBeReturned)
-            albumToBeReturned=albumsReturned[0];
+            albumToBeReturned = albumsReturned[0];
             resolve(albumToBeReturned)
         }
         else {
