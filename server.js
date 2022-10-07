@@ -239,6 +239,15 @@ app.get('/albums', (req, res) => {
 // SETTING UP THE ROUTE TO LISTEN ON "/albums/add"
 app.get('/albums/add', (req, res) => {
     //res.sendFile(path.join(__dirname, '/views/addAlbum.html'))
+    musicService.getAllGenres().then((data)=>{
+        res.render('addAlbum',{
+            genres:data
+        }).catch((err)=>{
+            res.render('addAlbum',{
+                genres:[]
+            })
+        })
+    })
     res.render('addAlbum')
 })
 
@@ -297,7 +306,7 @@ app.get("/albums/delete/:id",(req,res)=>{
 // SETTING UP A ROUTE TO LISTEN ON "/genres/add"
 
 app.get('/genres/add', (req, res) => {
-    res.render("addGenres",
+    res.render("addGenre",
         {
             data: null,
             layout: 'main'
