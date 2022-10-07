@@ -31,7 +31,6 @@ var Album = sequelize.define('Album', {
     AlbumCover: Sequelize.STRING,
     Released: Sequelize.DATE,
     Singles: Sequelize.STRING,
-    Genre: Sequelize.STRING
 
 })
 
@@ -47,14 +46,14 @@ var Genre = sequelize.define('Genre', {
 // Defining relationship between Album and Genre
 // This will ensure that our "Album" model has a "genre" column that will act as a foreign key to the Genre model
 
-Album.belongsTo(Genre,{foreignKey:'genre'})
+Album.belongsTo(Genre, { foreignKey: 'genre' })
 
 // INITIALIZE FUNCTION
 module.exports.initialize = () => {
-    return new Promise((resolve,reject)=>{
-        sequelize.sync().then(()=>{
+    return new Promise((resolve, reject) => {
+        sequelize.sync().then(() => {
             resolve('CONNECTION SUCCESSFULL!!')
-        }).catch((err)=>{
+        }).catch((err) => {
             reject("CONNECTION UN-SUCCESSFULL!!")
         })
     })
@@ -63,43 +62,54 @@ module.exports.initialize = () => {
 // GET ALL ALBUMS FUNCTION
 module.exports.getAllAlbums = () => {
     return new Promise((resolve, reject) => {
-        if (albums.length) {
-            //console.log(albums);
-            resolve(albums)
-
-        }
-        else
+        // RETURN ALL ALBUMS
+        Album.findAll().then((data) => {
+            resolve(data)
+        }).catch((err) => {
             reject("NO DATA FOUND!!")
+        })
 
     })
 }
 
 // GET ALBUMS BY GENRES
-module.exports.getAlbumsByGenre = (genre) => {
-    var albumsToBeReturned = [];
-    //console.log(genre)
-    return new Promise((resolve, reject) => {
-        var genreName;
-        for (let i = 0; i < genres.length; i++) {
-            if (genre == genres[i].id) {
-                genreName = genres[i].genre
-            }
-        }
-        for (let i = 0; i < albums.length; i++) {
-            let result = genreName.localeCompare(albums[i].Genre);
-            if (result == 0) {
-                albumsToBeReturned.push(albums[i])
-            }
-        }
-        if (albumsToBeReturned.length != 0) {
+module.exports.getAlbumsByGenre = (genre_value) => {
 
-            resolve(albumsToBeReturned)
-        }
-        else {
-            // console.log("NO DATA FOUND!!")
+    return new Promise((resolve, reject) => {
+        Album.findAll({
+            where: {
+                genre: genre_value
+            }
+        }).then((data)=>{
+            resolve(data)
+        }).catch((err)=>{
             reject("NO DATA FOUND!!")
-        }
+        })
     })
+    // var albumsToBeReturned = [];
+    // //console.log(genre)
+    // return new Promise((resolve, reject) => {
+    //     var genreName;
+    //     for (let i = 0; i < genres.length; i++) {
+    //         if (genre == genres[i].id) {
+    //             genreName = genres[i].genre
+    //         }
+    //     }
+    //     for (let i = 0; i < albums.length; i++) {
+    //         let result = genreName.localeCompare(albums[i].Genre);
+    //         if (result == 0) {
+    //             albumsToBeReturned.push(albums[i])
+    //         }
+    //     }
+    //     if (albumsToBeReturned.length != 0) {
+
+    //         resolve(albumsToBeReturned)
+    //     }
+    //     else {
+    //         // console.log("NO DATA FOUND!!")
+    //         reject("NO DATA FOUND!!")
+    //     }
+    // })
 }
 
 // GET ALBUMS BY ID
