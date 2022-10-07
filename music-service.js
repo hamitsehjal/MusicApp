@@ -189,6 +189,10 @@ module.exports.deleteAlbumById = (id_value) => {
             where: {
                 id: id_value
             }
+        }).then((data) => {
+            resolve(data)
+        }).catch((err) => {
+            reject("UNABLE TO DELETE ALBUM")
         })
     })
 }
@@ -211,6 +215,10 @@ module.exports.deleteGenreById = (id_value) => {
             where: {
                 id: id_value
             }
+        }).then((data) => {
+            resolve(data)
+        }).catch((err) => {
+            reject("UNABLE TO DELETE GENRE")
         })
     })
 }
