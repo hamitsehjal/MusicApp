@@ -10,6 +10,7 @@
                 <th scope="col">Title</th>
                 <th scope="col">Label</th>
                 <th scope="col">Genre</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -20,6 +21,8 @@
                 <td>{{Label}}</td>
 
                 <td><a href="albums?genre={{Genre}}">{{Genre}}</a></td>
+                <td ><a class="btn btn-danger" href="/albums/delete/:{{id}}">Remove</a></td>
+
             </tr>
             {{/each}}
         </tbody>
