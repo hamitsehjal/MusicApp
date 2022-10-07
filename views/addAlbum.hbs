@@ -33,12 +33,18 @@
 
                     <div class="form-group">
                         <label for="Genre">Genre</label>
-                        <select class="form-control" name="Genre">
-                            <option>Hip-Hop</option>
-                            <option>Rock</option>
-                            <option>Pop</option>
+                        {{#if genres}}
+                        <select class="form-control" name="Genre" id="genre">
+                            {{#each genres}}
+                            <option value="{{id}}">{{genre}}</option>
+                            {{/each}}
                         </select>
+                        {{else}}
+                        <div>No Categories</div>
+                        {{/if}}
+
                     </div>
+
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
