@@ -198,9 +198,17 @@ app.get('/albums', (req, res) => {
     //albums?genre=1
     if (req.query.genre) {
         musicService.getAlbumsByGenre(req.query.genre).then((data) => {
-            res.render("albums", {
-                albums: data
-            })
+            if (data.length > 0) {
+                res.render("albums", {
+                    albums: data
+                })
+            }
+            else {
+                res.render('albums', {
+                    message: "SORRY, NO RESULTS FOUND!!😔😔😔"
+                })
+            }
+
         }).catch((err) => {
             res.render('albums', {
                 message: "SORRY, NO RESULTS FOUND!!😔😔😔"
@@ -209,7 +217,15 @@ app.get('/albums', (req, res) => {
     }
     else {
         musicService.getAllAlbums().then((data) => {
-            res.render("albums", { albums: data })
+            if (data.length > 0) {
+                res.render("albums", { albums: data })
+            }
+            else {
+                res.render('albums', {
+                    message: "SORRY, NO RESULTS FOUND!!😔😔😔"
+                })
+
+            }
         }).catch((err) => {
             res.render('albums', {
                 message: "SORRY, NO RESULTS FOUND!!😔😔😔"
@@ -252,9 +268,17 @@ app.post('/albums/add', upload.single('AlbumCover'), async (req, res, next) => {
 // SETTING UP A ROUTE TO LISTEN ON "/genres"
 app.get('/genres', (req, res) => {
     musicService.getAllGenres().then((data) => {
-        res.render('genres', {
-            genres: data
-        })
+        if (data.length > 0) {
+            res.render('genres', {
+                genres: data
+            })
+        }
+        else {
+            res.render('genres', {
+                message: "SORRY, NO RESULTS FOUND!!😔😔😔"
+            })
+        }
+
     }).catch((err) => {
         res.render("genres", {
             message: "SORRY, NO RESULTS FOUND!!😔😔😔"
@@ -262,6 +286,23 @@ app.get('/genres', (req, res) => {
     })
 })
 
+// SETTING UP A ROUTE TO LISTEN ON "/genres/add"
+
+app.get('/genres/add', (req, res) => {
+    res.render("addGenres",
+        {
+            data: null,
+            layout: 'main'
+        });
+})
+
+app.post('/genres/add', (req, res) => {
+    musicService.addGenre(req.body).then(() => {
+        res.redirect('/genres')
+    }).catch((err) => {
+        res.send({ message: err })
+    })
+})
 // SETTING UP A 404 PAGE
 app.use((req, res) => {
     // res.status(404).send("Page not Found!!")
